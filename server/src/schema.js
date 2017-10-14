@@ -5,13 +5,19 @@ import {
 
 import { resolvers } from './resolvers';
 
+// mutations won't do anything without a resolver function 
 const typeDefs = `
 type Channel {
   id: ID!
   name: String
 }
+
 type Query {
   channels: [Channel]
+}
+
+type Mutation {
+  addChannel(name: String!): Channel
 }
 `;
 
