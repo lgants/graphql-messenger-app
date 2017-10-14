@@ -2,18 +2,72 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import {
+  ApolloClient,
+  gql,
+  graphql,
+  ApolloProvider,
+} from 'react-apollo';
+
+import {
+  makeExecutableSchema,
+  addMockFunctionsToSchema
+} from 'graphql-tools';
+
+import { mockNetworkInterfaceWithSchema } from 'apollo-test-utils';
+import { typeDefs } from './schema';
+
+const schema = makeExecutableSchema({ typeDefs });
+addMockFunctionsToSchema({ schema });
+
+const mockNetworkInterface = mockNetworkInterfaceWithSchema({ schema });
+
+// Apollo Client will assume that it’s running on the same origin under /graphql if a URL for your GraphQL endpoint isn't specified
+const client = new ApolloClient({
+  networkInterface: mockNetworkInterface,
+});
+
+
+const ChannelsList = ({ data: {loading, error, channels }}) => {
+  if (loading) {
+    return (<p>Loading ...</p>);
+  }
+  if (error) {
+    return (<p>{error.message}</p>);
+  }
+
+  return (
+    <ul>
+      { channels.map( ch => <li key={ch.id}>{ch.name}</li> ) }
+    </ul>
+  );
+};
+
+const channelsListQuery = gql`
+  query ChannelsListQuery {
+    channels {
+      id
+      name
+    }
+  }
+`;
+
+// when wrapped with the graphql HOC, the ChannelsList component will receive a prop called data, which will contain channels when it’s available or error when there is an error
+// data also contains a loading property, which is true when Apollo Client is still waiting for data to be fetched
+const ChannelsListWithData = graphql(channelsListQuery)(ChannelsList);
+
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <ApolloProvider client={client}>
+        <div className="App">
+          <div className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h2>Welcome to Apollo</h2>
+          </div>
+          <ChannelsListWithData />
+        </div>
+      </ApolloProvider>
     );
   }
 }
