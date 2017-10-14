@@ -10,7 +10,7 @@ const AddChannel = ({ mutate }) => {
     // for mutations and other cases to update the store based on an action on the client, Apollo provides tools to perform imperative store updates: readQuery,writeQuery, readFragment and writeFragment
     // Apollo Client makes provides access to those functions via the update property exposed in mutate
     if (evt.keyCode === 13) {
-      evt.persist();
+      // evt.persist();
       mutate({
         variables: { name: evt.target.value },
         optimisticResponse: {
@@ -22,16 +22,17 @@ const AddChannel = ({ mutate }) => {
         },
         update: (store, { data: { addChannel } }) => {
           // read data from the cache for this query
-          const data = store.readQuery({query: channelsListQuery });
+          const data = store.readQuery({ query: channelsListQuery });
           // add channel from the mutation to the end
           data.channels.push(addChannel);
           // write the data back to the cache
           store.writeQuery({ query: channelsListQuery, data });
         },
       })
-      .then( res => {
-        evt.target.value = '';
-      });
+      // .then( res => {
+      //   evt.target.value = '';
+      // });
+      evt.target.value = '';
     }
   };
 
