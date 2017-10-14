@@ -11,10 +11,12 @@ const PORT = 4000;
 
 const server = express();
 
+// adds graphqlExpress middleware, which executes the queries against the schema, to Express
 server.use('/graphql', bodyParser.json(), graphqlExpress({
   schema
 }));
 
+// adds graphqliQL middleware, which provides an interactive query editor, to Express
 server.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql'
 }));

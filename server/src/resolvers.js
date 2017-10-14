@@ -6,7 +6,6 @@ const channels = [{
   name: 'baseball',
 }];
 
-
 export const resolvers = {
   Query: {
     channels: () => {
