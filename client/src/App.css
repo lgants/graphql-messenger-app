@@ -93,3 +93,7 @@ div.channel span {
   position: absolute;
   left: 10px;
 }
+
+div.optimistic {
+  color: rgba(255, 255, 255, 0.5);
+}

@@ -21,6 +21,12 @@ addMockFunctionsToSchema({ schema });
 const networkInterface = createNetworkInterface({
   uri: 'http://localhost:4000/graphql',
 });
+// simulates latency of 500ms
+networkInterface.use([{
+  applyMiddleware(req, next) {
+    setTimeout(next, 500);
+  },
+}]);
 
 // Apollo Client assumes it’s running on the same origin under /graphql if a URL for the GraphQL endpoint isn't specified
 const client = new ApolloClient({
