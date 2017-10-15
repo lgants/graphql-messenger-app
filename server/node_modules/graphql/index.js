@@ -759,12 +759,6 @@ Object.defineProperty(exports, 'findBreakingChanges', {
     return _utilities.findBreakingChanges;
   }
 });
-Object.defineProperty(exports, 'findDangerousChanges', {
-  enumerable: true,
-  get: function get() {
-    return _utilities.findDangerousChanges;
-  }
-});
 Object.defineProperty(exports, 'BreakingChangeType', {
   enumerable: true,
   get: function get() {

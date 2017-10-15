@@ -198,12 +198,6 @@ Object.defineProperty(exports, 'findBreakingChanges', {
     return _findBreakingChanges.findBreakingChanges;
   }
 });
-Object.defineProperty(exports, 'findDangerousChanges', {
-  enumerable: true,
-  get: function get() {
-    return _findBreakingChanges.findDangerousChanges;
-  }
-});
 
 var _findDeprecatedUsages = require('./findDeprecatedUsages');
 

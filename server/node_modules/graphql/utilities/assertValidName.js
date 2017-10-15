@@ -5,13 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.assertValidName = assertValidName;
 exports.formatWarning = formatWarning;
+
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ *  Copyright (c) 2015, Facebook, Inc.
+ *  All rights reserved.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
+ *  This source code is licensed under the BSD-style license found in the
+ *  LICENSE file in the root directory of this source tree. An additional grant
+ *  of patent rights can be found in the PATENTS file in the same directory.
  */
 
 var NAME_RX = /^[_a-zA-Z][_a-zA-Z0-9]*$/;

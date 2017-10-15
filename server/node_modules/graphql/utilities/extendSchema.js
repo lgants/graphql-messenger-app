@@ -53,13 +53,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * This algorithm copies the provided schema, applying extensions while
  * producing the copy. The original schema remains unaltered.
  */
+
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ *  Copyright (c) 2015, Facebook, Inc.
+ *  All rights reserved.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
+ *  This source code is licensed under the BSD-style license found in the
+ *  LICENSE file in the root directory of this source tree. An additional grant
+ *  of patent rights can be found in the PATENTS file in the same directory.
  */
 
 function extendSchema(schema, documentAST) {
@@ -486,7 +487,6 @@ function extendSchema(schema, documentAST) {
   function getDirective(directiveNode) {
     return new _directives.GraphQLDirective({
       name: directiveNode.name.value,
-      description: (0, _buildASTSchema.getDescription)(directiveNode),
       locations: directiveNode.locations.map(function (node) {
         return node.value;
       }),

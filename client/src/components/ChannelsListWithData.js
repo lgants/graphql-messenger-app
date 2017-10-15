@@ -10,7 +10,7 @@ import {
 
 import AddChannel from './AddChannel';
 
-const ChannelsList = ({ data: {loading, error, channels}}) => {
+const ChannelsList = ({ data: {loading, error, channels }}) => {
   if (loading) {
     return (<p>Loading ...</p>);
   }

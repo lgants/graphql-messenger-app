@@ -5,19 +5,34 @@ import {
 
 import { resolvers } from './resolvers';
 
-// mutations won't do anything without a resolver function 
+// mutations won't do anything without a resolver function
 const typeDefs = `
 type Channel {
   id: ID!
   name: String
+  messages: [Message]!
 }
 
+input MessageInput{
+  channelId: ID!
+  text: String
+}
+
+type Message {
+  id: ID!
+  text: String
+}
+
+# query type specifies the entry points into the API
 type Query {
   channels: [Channel]
+  channel(id: ID!): Channel
 }
 
+# mutation root type; used to define all mutations
 type Mutation {
   addChannel(name: String!): Channel
+  addMessage(message: MessageInput!): Message
 }
 `;
 

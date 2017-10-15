@@ -43,12 +43,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ *  Copyright (c) 2015, Facebook, Inc.
+ *  All rights reserved.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
+ *  This source code is licensed under the BSD-style license found in the
+ *  LICENSE file in the root directory of this source tree. An additional grant
+ *  of patent rights can be found in the PATENTS file in the same directory.
  */
 
 function buildWrappedType(innerType, inputTypeNode) {
@@ -262,16 +262,26 @@ function buildASTSchema(ast) {
   }
 
   function typeDefNamed(typeName) {
-    if (!innerTypeMap[typeName]) {
-      if (!nodeMap[typeName]) {
-        throw new Error('Type "' + typeName + '" not found in document.');
-      }
-      innerTypeMap[typeName] = makeSchemaDef(nodeMap[typeName]);
+    if (innerTypeMap[typeName]) {
+      return innerTypeMap[typeName];
     }
-    return innerTypeMap[typeName];
+
+    if (!nodeMap[typeName]) {
+      throw new Error('Type "' + typeName + '" not found in document.');
+    }
+
+    var innerTypeDef = makeSchemaDef(nodeMap[typeName]);
+    if (!innerTypeDef) {
+      throw new Error('Nothing constructed for "' + typeName + '".');
+    }
+    innerTypeMap[typeName] = innerTypeDef;
+    return innerTypeDef;
   }
 
   function makeSchemaDef(def) {
+    if (!def) {
+      throw new Error('def must be defined');
+    }
     switch (def.kind) {
       case Kind.OBJECT_TYPE_DEFINITION:
         return makeTypeDef(def);
@@ -340,8 +350,9 @@ function buildASTSchema(ast) {
   }
 
   function makeInterfaceDef(def) {
+    var typeName = def.name.value;
     return new _definition.GraphQLInterfaceType({
-      name: def.name.value,
+      name: typeName,
       description: getDescription(def),
       fields: function fields() {
         return makeFieldDefMap(def);
@@ -352,7 +363,7 @@ function buildASTSchema(ast) {
   }
 
   function makeEnumDef(def) {
-    return new _definition.GraphQLEnumType({
+    var enumType = new _definition.GraphQLEnumType({
       name: def.name.value,
       description: getDescription(def),
       values: (0, _keyValMap2.default)(def.values, function (enumValue) {
@@ -366,6 +377,8 @@ function buildASTSchema(ast) {
       }),
       astNode: def
     });
+
+    return enumType;
   }
 
   function makeUnionDef(def) {

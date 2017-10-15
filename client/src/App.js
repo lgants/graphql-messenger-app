@@ -23,7 +23,7 @@ import {
 //   addMockFunctionsToSchema
 // } from 'graphql-tools';
 
-import { typeDefs } from './schema';
+// import { typeDefs } from './schema';
 
 // const schema = makeExecutableSchema({ typeDefs });
 // addMockFunctionsToSchema({ schema });
@@ -47,9 +47,18 @@ function dataIdFromObject (result) {
   return null;
 }
 
-// Apollo Client assumes it’s running on the same origin under /graphql if a URL for the GraphQL endpoint isn't specified
+// ApolloClient assumes it’s running on the same origin under /graphql if a URL for the GraphQL endpoint isn't specified
+// custom resolver tells Apollo Client to check its cache for a Channel object with ID $channelId whenever a channel query is made (i.e. need to tell it that the channel query might resolve to an object that was retrieved by a channels query)
+// ApolloClient uses dataIdFromObject to tag GraphQL objects in the cache and toIdValue ensures an ID type is returned
 const client = new ApolloClient({
   networkInterface,
+  customResolvers: {
+    Query: {
+      channel: (_, args) => {
+        return toIdValue(dataIdFromObject({ __typename: 'Channel', id: args['id'] }))
+      },
+    },
+  },
   dataIdFromObject,
 });
 
