@@ -34,6 +34,11 @@ type Mutation {
   addChannel(name: String!): Channel
   addMessage(message: MessageInput!): Message
 }
+
+# subscription root type
+type Subscription {
+  messageAdded(channelId: ID!): Message
+}
 `;
 
  // makeExecutableSchema turns type definitions into an executable schema to which custom resolve functions can be added
