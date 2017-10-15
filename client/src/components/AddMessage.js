@@ -29,9 +29,9 @@ const AddMessage = ({ mutate, match }) => {
               channelId: match.params.channelId,
             }
           });
-          if (!data.channel.messages.find((msg) => msg.id === addMessage.id)) {
-            // add our Message from the mutation to the end
-            data.channel.messages.push(addMessage);
+          if (!data.channel.messageFeed.messages.find((msg) => msg.id === addMessage.id)) {
+            // add Message from the mutation to the end
+            data.channel.messageFeed.messages.push(addMessage);
           }
           // write the data back to the cache
           proxy.writeQuery({

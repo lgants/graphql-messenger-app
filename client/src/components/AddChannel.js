@@ -21,7 +21,9 @@ const AddChannel = ({ mutate }) => {
           },
         },
         update: (proxy, { data: { addChannel } }) => {
-          // proxy provides an interface to interact with the normalized data in the cache
+          // options.update enables store updates based on a mutation’s result
+          // ApolloClient will automatically update all overlapping nodes in the store; however, options.update can be used to update the cache in a way that's dependent on the data currently in the cache
+          // options.update first arg is an instance of a DataProxy object with methods to interact with the data in your store, second arg is response from the mutation - either optimistic response, or actual response returned by server
           // readQuery reads data from the cache for this query starting at the root query type
           // readQuery is similar to query, but it will never send a request using the network interface; it will only try to read from the cache, and if that read fails then an error will be thrown
           const data = proxy.readQuery({ query: channelsListQuery });

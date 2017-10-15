@@ -28,7 +28,10 @@ import {
 // const schema = makeExecutableSchema({ typeDefs });
 // addMockFunctionsToSchema({ schema });
 
-import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
+import {
+  SubscriptionClient,
+  addGraphQLSubscriptions
+} from 'subscriptions-transport-ws';
 
 const networkInterface = createNetworkInterface({
   uri: 'http://localhost:4000/graphql',

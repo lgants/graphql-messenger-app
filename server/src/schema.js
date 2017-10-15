@@ -6,11 +6,15 @@ import {
 import { resolvers } from './resolvers';
 
 // mutations won't do anything without a resolver function
+// cursors are pointers to the spot where the data was left off
 const typeDefs = `
 type Channel {
   id: ID!
   name: String
-  messages: [Message]!
+  messages: [Message]
+
+  # messages will be returned in a MessageFeed object wrapper
+  messageFeed(cursor: String): MessageFeed
 }
 
 input MessageInput{
@@ -21,6 +25,15 @@ input MessageInput{
 type Message {
   id: ID!
   text: String
+  createdAt: Int
+}
+
+type MessageFeed {
+  # cursor tells the client the place in the list where last fetch left off
+  cursor: String!
+
+  # this is a chunk of messages to be returned
+  messages: [Message]!
 }
 
 # query root type specifies the entry points into the API
