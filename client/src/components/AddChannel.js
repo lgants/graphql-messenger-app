@@ -8,7 +8,7 @@ const AddChannel = ({ mutate }) => {
   const handleKeyUp = (evt) => {
     // Apollo Client accepts a refetchQueries option on the call to perform a refetch after mutation completes (i.e. refetchQueries: [ { query: channelsListQuery }],)
     // for mutations and other cases to update the store based on an action on the client, Apollo provides tools to perform imperative store updates: readQuery,writeQuery, readFragment and writeFragment
-    // Apollo Client makes provides access to those functions via the update property exposed in mutate
+    // Apollo Client provides access to those functions via the update property exposed in mutate
     if (evt.keyCode === 13) {
       // evt.persist();
       mutate({
@@ -20,13 +20,18 @@ const AddChannel = ({ mutate }) => {
             __typename: 'Channel',
           },
         },
-        update: (store, { data: { addChannel } }) => {
-          // read data from the cache for this query
-          const data = store.readQuery({ query: channelsListQuery });
+        update: (proxy, { data: { addChannel } }) => {
+          // proxy provides an interface to interact with the normalized data in the cache
+          // readQuery reads data from the cache for this query starting at the root query type
+          // readQuery is similar to query, but it will never send a request using the network interface; it will only try to read from the cache, and if that read fails then an error will be thrown
+          const data = proxy.readQuery({ query: channelsListQuery });
           // add channel from the mutation to the end
           data.channels.push(addChannel);
           // write the data back to the cache
-          store.writeQuery({ query: channelsListQuery, data });
+          proxy.writeQuery({ query: channelsListQuery, data });
+          // Apollo Client now provides the ability to control the store with four methods: readQuery(options), readFragment(options), writeQuery(options), and writeFragment(options)
+          // readFragment accepts a GraphQL fragment and an id and returns the data at that id matching the provided fragment
+          // writeQuery() and writeFragment() update the data in the local cache (i.e. simulate an update from the server); however, updates are not actually persisted to the backend
         },
       })
       // .then( res => {

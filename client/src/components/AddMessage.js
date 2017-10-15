@@ -21,9 +21,9 @@ const AddMessage = ({ mutate, match }) => {
             __typename: 'Message',
           },
         },
-        update: (store, { data: { addMessage } }) => {
+        update: (proxy, { data: { addMessage } }) => {
           // read the data from the cache for this query
-          const data = store.readQuery({
+          const data = proxy.readQuery({
             query: channelDetailsQuery,
             variables: {
               channelId: match.params.channelId,
@@ -34,7 +34,7 @@ const AddMessage = ({ mutate, match }) => {
             data.channel.messages.push(addMessage);
           }
           // write the data back to the cache
-          store.writeQuery({
+          proxy.writeQuery({
             query: channelDetailsQuery,
             variables: {
               channelId: match.params.channelId,

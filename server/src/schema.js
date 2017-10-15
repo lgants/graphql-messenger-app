@@ -23,7 +23,7 @@ type Message {
   text: String
 }
 
-# query type specifies the entry points into the API
+# query root type specifies the entry points into the API
 type Query {
   channels: [Channel]
   channel(id: ID!): Channel
