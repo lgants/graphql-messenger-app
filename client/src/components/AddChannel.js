@@ -61,7 +61,11 @@ const addChannelMutation = gql`
   }
 `;
 
-
+// graphql(document, <{config}>)(component)
+// graphql() function returns a function that “enhances” any component with reactive GraphQL capabilities
+// graphql() will only provide access to GraphQL data if there is a <ApolloProvider/> component higher in the tree to provide an ApolloClient instance that will be used to fetch data
+// graphql() args 1) document - GraphQL document (i.e. query, mutation, or subscription) 2) optional config object enables adding custom behavior to the HOC
+// use the compose() function to use multiple graphql() enhancers at once
 const AddChannelWithMutation = graphql(
   addChannelMutation,
 )(AddChannel);
