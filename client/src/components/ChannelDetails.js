@@ -19,7 +19,6 @@ class ChannelDetails extends Component {
         channelId: this.props.match.params.channelId,
       },
       updateQuery: (prev, {subscriptionData}) => {
-        debugger
         if (!subscriptionData.data) {
           // prev is the previous store state
           return prev;

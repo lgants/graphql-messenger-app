@@ -60,6 +60,10 @@ addChannel('channel2');
 
 const pubsub = new PubSub();
 
+// NOTE every resolver in a GraphQL.js schema accepts four positional arguments: fieldName(obj, args, context, info) { result }
+// NOTE obj the previous object, which for a field on the root Query type is often not used, args is an object with the arguments passed into the field in the query, context a value which is provided to every resolver and holds important contextual information like the currently logged in user, or access to a database
+// NOTE resolvers aren't required for every type in a schema; if a resolver isn't specified, GraphQL.js falls back to a default one, which returns a property from obj with the relevant field name, or calls a function on obj with the relevant field name and passes the query arguments into that function
+// NOTE so a resolver isn't needed if the relevent Model object retrieved from the backend already contained the fields specified in the graphql query
 export const resolvers = {
   Query: {
     channels: () => {
@@ -75,13 +79,12 @@ export const resolvers = {
       // the cursor passed in by the client will be an integer timestamp
       // if no cursor is passed in, set the cursor equal to the time at which the last message in the channel was created
       if (!cursor) {
-        cursor =
-          channel.messages[channel.messages.length - 1].createdAt;
+        cursor = channel.messages[channel.messages.length - 1].createdAt;
       }
 
       cursor = parseInt(cursor);
       // limit is the number of messages to return
-      // could pass it in as an argument but in this case it's a static value.
+      // could pass it in as an argument but in this case it's a static value
       const limit = 10;
 
       // find index of message created at time held in cursor
