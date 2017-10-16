@@ -64,6 +64,7 @@ const pubsub = new PubSub();
 // NOTE obj the previous object, which for a field on the root Query type is often not used, args is an object with the arguments passed into the field in the query, context a value which is provided to every resolver and holds important contextual information like the currently logged in user, or access to a database
 // NOTE resolvers aren't required for every type in a schema; if a resolver isn't specified, GraphQL.js falls back to a default one, which returns a property from obj with the relevant field name, or calls a function on obj with the relevant field name and passes the query arguments into that function
 // NOTE so a resolver isn't needed if the relevent Model object retrieved from the backend already contained the fields specified in the graphql query
+// need to define a resolve function for each field that either returns a non-scalar type or takes any arguments
 export const resolvers = {
   Query: {
     channels: () => {
